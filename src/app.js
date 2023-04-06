@@ -36,7 +36,15 @@ app.post("/tweets",(req,res)=>{
 
 app.get("/tweets",(req,res)=>{
 
-    const feed = tweets.map((t) =>{
+    let feed = []
+
+    if(tweets.length > 10){
+        feed = tweets.slice(-10)
+    } else {
+        feed = tweets
+    }
+
+    feed = feed.map((t) =>{
 
         const user = users.find((u)=> u.username == t.username)
 
