@@ -71,7 +71,9 @@ app.get("/tweets/:username",(req,res)=>{
 
     const user = users.find((u) => u.username === username)
 
-    const userTweets = tweets.map((t) => {
+    let userTweets = tweets.filter((t) => t.username === username)
+
+    userTweets = userTweets.map((t) => {
         
         if(t.username === username){
             return {...t,avatar:user.avatar}
@@ -81,6 +83,8 @@ app.get("/tweets/:username",(req,res)=>{
     console.log(userTweets)
     res.status(200).send(userTweets)
 })
+
+
 
 const PORT = 5000;
 app.listen(PORT,()=>{console.log(`Servidor rodando na porta ${PORT}`)})
