@@ -14,19 +14,26 @@ app.post("/sign-up",(req,res)=>{
 
     const user = req.body
 
-    users.push(user)
+    if(typeof(user.username) !== "string" || typeof(user.avatar) !== "string" || user.username.length == 0 || user.avatar.length == 0){
+        res.status(400).send("Todos os campos são obrigatórios!")
+        return
+    }
 
+    users.push(user)
     res.status(201).send("OK")
 })
 
 app.post("/tweets",(req,res)=>{
     const tweet = req.body
 
+    if(typeof(tweet.username) !== "string" || typeof(tweet.tweet) !== "string" || tweet.username.length == 0 || tweet.tweet.length == 0){
+        res.status(400).send("Todos os campos são obrigatórios!")
+        return
+    }
+
     if(users.some((u)=> u.username === tweet.username)){
 
-        console.log(tweet)
         tweets.push(tweet)
-
         res.status(200).send("OK")
 
     } else {
