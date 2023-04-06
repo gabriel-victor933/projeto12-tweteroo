@@ -34,7 +34,7 @@ app.post("/tweets",(req,res)=>{
     if(users.some((u)=> u.username === tweet.username)){
 
         tweets.push(tweet)
-        res.status(200).send("OK")
+        res.status(201).send("OK")
 
     } else {
         res.status(401).send("UNAUTHORIZED")
@@ -60,6 +60,26 @@ app.get("/tweets",(req,res)=>{
     })
 
     res.status(200).send(feed)
+})
+
+
+app.get("/tweets/:username",(req,res)=>{
+
+    const {username} = req.params
+
+    console.log(username)
+
+    const user = users.find((u) => u.username === username)
+
+    const userTweets = tweets.map((t) => {
+        
+        if(t.username === username){
+            return {...t,avatar:user.avatar}
+        }
+    })
+
+    console.log(userTweets)
+    res.status(200).send(userTweets)
 })
 
 const PORT = 5000;
