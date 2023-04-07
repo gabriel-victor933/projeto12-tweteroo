@@ -43,13 +43,19 @@ app.post("/tweets",(req,res)=>{
 
 app.get("/tweets",(req,res)=>{
 
-    let feed = []
+    let { page } = req.query
 
-    if(tweets.length > 10){
-        feed = tweets.slice(-10)
-    } else {
-        feed = tweets
+    if(page === undefined) page = 1;
+
+    if(page < 1){
+        res.status(400).send("Informe uma página válida!")
     }
+
+    let feed = tweets
+
+    if(feed.length > 10){
+        feed = feed.reverse().slice(10*(page-1),10*page)
+    } 
 
     feed = feed.map((t) =>{
 
