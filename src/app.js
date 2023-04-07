@@ -26,14 +26,17 @@ app.post("/sign-up",(req,res)=>{
 app.post("/tweets",(req,res)=>{
     const tweet = req.body
 
-    if(typeof(tweet.username) !== "string" || typeof(tweet.tweet) !== "string" || tweet.username.length == 0 || tweet.tweet.length == 0){
+    const { user } = req.headers
+
+
+    if(typeof(user) !== "string" || typeof(tweet.tweet) !== "string" || user.length == 0 || tweet.tweet.length == 0){
         res.status(400).send("Todos os campos são obrigatórios!")
         return
     }
 
-    if(users.some((u)=> u.username === tweet.username)){
+    if(users.some((u)=> u.username === user)){
 
-        tweets.push(tweet)
+        tweets.push({...tweet,username:user})
         res.status(201).send("OK")
 
     } else {
